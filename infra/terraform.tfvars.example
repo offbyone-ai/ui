@@ -1,0 +1,21 @@
+# Copy this file to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored and should never be committed
+
+# Hetzner Cloud API token (from https://console.hetzner.cloud/projects/*/security/tokens)
+hcloud_token = "your-hetzner-api-token"
+
+# Your SSH public key (usually ~/.ssh/id_ed25519.pub or ~/.ssh/id_rsa.pub)
+ssh_public_key = "ssh-ed25519 AAAA... your-email@example.com"
+
+# Server configuration
+server_name = "offbyone-web"
+server_type = "cx22"        # cx22 = 2 vCPU, 4GB RAM (~€4/mo)
+location    = "nbg1"        # nbg1 (Nuremberg), fsn1 (Falkenstein), hel1 (Helsinki), ash (Ashburn), hil (Hillsboro)
+environment = "production"
+
+# GitHub Container Registry authentication
+gh_username = "your-github-username"
+gh_token    = "ghp_your-personal-access-token"  # Needs read:packages scope
+
+# Docker image to deploy
+app_image = "ghcr.io/your-username/offbyone-ui:latest"

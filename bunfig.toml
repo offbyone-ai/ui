@@ -1,0 +1,7 @@
+[install]
+# Use exact versions for reproducibility
+exact = true
+
+[install.lockfile]
+# Save the lockfile in the root
+save = true

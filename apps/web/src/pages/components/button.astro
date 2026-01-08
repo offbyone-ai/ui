@@ -1,0 +1,143 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Button" description="A customizable button component with multiple variants and sizes.">
+	<div class="container mx-auto px-4 py-12">
+		<div class="mx-auto max-w-3xl">
+			<div class="mb-8">
+				<a href="/components" class="text-sm text-muted-foreground hover:underline">
+					← Back to Components
+				</a>
+				<h1 class="mt-4 text-4xl font-bold">Button</h1>
+				<p class="mt-2 text-muted-foreground">
+					A customizable button component with multiple variants and sizes.
+				</p>
+			</div>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Installation</h2>
+				<div class="rounded-lg border bg-muted/50 p-4">
+					<code class="text-sm">
+						npx shadcn@latest add https://offbyone.dev/r/button.json
+					</code>
+				</div>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Usage</h2>
+				<div class="rounded-lg border bg-muted/50 p-4">
+					<pre class="text-sm"><code>{`import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return <Button>Click me</Button>
+}`}</code></pre>
+				</div>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Variants</h2>
+				<div class="space-y-4">
+					<div>
+						<h3 class="mb-2 font-medium">Default</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button variant="default">Default</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Destructive</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button variant="destructive">Destructive</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Outline</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button variant="outline">Outline</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Secondary</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button variant="secondary">Secondary</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Ghost</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button variant="ghost">Ghost</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Link</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button variant="link">Link</Button>`}</code>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Sizes</h2>
+				<div class="space-y-4">
+					<div>
+						<h3 class="mb-2 font-medium">Default</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button size="default">Default</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Small</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button size="sm">Small</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Large</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button size="lg">Large</Button>`}</code>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-2 font-medium">Icon</h3>
+						<div class="rounded-lg border bg-muted/50 p-4">
+							<code class="text-sm">{`<Button size="icon"><IconComponent /></Button>`}</code>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section>
+				<h2 class="mb-4 text-2xl font-semibold">API Reference</h2>
+				<div class="overflow-x-auto">
+					<table class="w-full text-sm">
+						<thead>
+							<tr class="border-b">
+								<th class="py-2 text-left font-medium">Prop</th>
+								<th class="py-2 text-left font-medium">Type</th>
+								<th class="py-2 text-left font-medium">Default</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="border-b">
+								<td class="py-2"><code>variant</code></td>
+								<td class="py-2 text-muted-foreground">"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"</td>
+								<td class="py-2 text-muted-foreground">"default"</td>
+							</tr>
+							<tr class="border-b">
+								<td class="py-2"><code>size</code></td>
+								<td class="py-2 text-muted-foreground">"default" | "sm" | "lg" | "icon"</td>
+								<td class="py-2 text-muted-foreground">"default"</td>
+							</tr>
+							<tr>
+								<td class="py-2"><code>asChild</code></td>
+								<td class="py-2 text-muted-foreground">boolean</td>
+								<td class="py-2 text-muted-foreground">false</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</div>
+</BaseLayout>

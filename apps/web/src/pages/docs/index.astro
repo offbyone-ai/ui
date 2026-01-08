@@ -1,0 +1,74 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Documentation">
+	<div class="container mx-auto px-4 py-12">
+		<div class="mx-auto max-w-3xl">
+			<h1 class="mb-8 text-4xl font-bold">Getting Started</h1>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Introduction</h2>
+				<p class="mb-4 text-muted-foreground">
+					offbyone is a component registry that provides reusable React components
+					built with Tailwind CSS. Components can be installed via the shadcn CLI
+					or copied directly into your project.
+				</p>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Installation</h2>
+				<p class="mb-4 text-muted-foreground">
+					Make sure you have a React project with Tailwind CSS configured.
+					Then use the shadcn CLI to add components:
+				</p>
+				<div class="mb-4 rounded-lg border bg-muted/50 p-4">
+					<code class="text-sm">
+						npx shadcn@latest add https://offbyone.dev/r/button.json
+					</code>
+				</div>
+				<p class="text-muted-foreground">
+					This will install the button component and its dependencies into your project.
+				</p>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Using Components</h2>
+				<p class="mb-4 text-muted-foreground">
+					After installation, import and use components in your React code:
+				</p>
+				<div class="rounded-lg border bg-muted/50 p-4">
+					<pre class="text-sm"><code>{`import { Button } from "@/components/ui/button"
+
+export function MyComponent() {
+  return (
+    <Button variant="default">
+      Click me
+    </Button>
+  )
+}`}</code></pre>
+				</div>
+			</section>
+
+			<section class="mb-12">
+				<h2 class="mb-4 text-2xl font-semibold">Dependencies</h2>
+				<p class="mb-4 text-muted-foreground">
+					Components use the following utility packages:
+				</p>
+				<ul class="list-inside list-disc space-y-2 text-muted-foreground">
+					<li><code class="text-sm">class-variance-authority</code> - For component variants</li>
+					<li><code class="text-sm">clsx</code> - For conditional class names</li>
+					<li><code class="text-sm">tailwind-merge</code> - For merging Tailwind classes</li>
+				</ul>
+			</section>
+
+			<section>
+				<h2 class="mb-4 text-2xl font-semibold">Customization</h2>
+				<p class="text-muted-foreground">
+					Components are designed to be customized. Since they're copied into your project,
+					you own the code and can modify it however you need.
+				</p>
+			</section>
+		</div>
+	</div>
+</BaseLayout>

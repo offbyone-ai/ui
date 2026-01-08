@@ -1,0 +1,21 @@
+{
+	"name": "offbyone-ui",
+	"private": true,
+	"workspaces": ["apps/*", "packages/*"],
+	"scripts": {
+		"dev": "turbo dev",
+		"build": "turbo build",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"format": "biome format --write .",
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"registry:build": "turbo registry:build"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"turbo": "^2.3.3",
+		"typescript": "^5.7.2"
+	},
+	"packageManager": "bun@1.1.38"
+}

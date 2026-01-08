@@ -1,0 +1,22 @@
+# Development Dockerfile with hot reload support
+FROM oven/bun:1
+
+WORKDIR /app
+
+# Install dependencies
+COPY package.json bun.lockb* ./
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/registry/package.json ./packages/registry/
+
+RUN bun install
+
+# Create data directory
+RUN mkdir -p /app/data
+
+# Expose ports for development servers
+EXPOSE 4321 3001
+
+# Default command runs dev mode
+CMD ["bun", "run", "dev"]

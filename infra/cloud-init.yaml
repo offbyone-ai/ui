@@ -1,0 +1,88 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gnupg
+  - lsb-release
+  - unattended-upgrades
+
+# Install Docker
+runcmd:
+  # Install Docker
+  - curl -fsSL https://get.docker.com | sh
+  - systemctl enable docker
+  - systemctl start docker
+
+  # Login to GitHub Container Registry
+  - echo "${gh_token}" | docker login ghcr.io -u ${gh_username} --password-stdin
+
+  # Create app directory
+  - mkdir -p /opt/offbyone/data
+
+  # Create docker-compose file
+  - |
+    cat > /opt/offbyone/docker-compose.yml << 'EOF'
+    services:
+      app:
+        image: ${app_image}
+        container_name: offbyone
+        restart: unless-stopped
+        ports:
+          - "3000:3000"
+        environment:
+          - NODE_ENV=production
+          - DATABASE_PATH=/app/data/analytics.db
+          - STATIC_PATH=./static
+        volumes:
+          - ./data:/app/data
+        healthcheck:
+          test: ["CMD", "bun", "--eval", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1))"]
+          interval: 30s
+          timeout: 10s
+          retries: 3
+          start_period: 10s
+    EOF
+
+  # Create update script
+  - |
+    cat > /opt/offbyone/update.sh << 'SCRIPT'
+    #!/bin/bash
+    set -e
+    cd /opt/offbyone
+    echo "Pulling latest image..."
+    docker compose pull
+    echo "Restarting container..."
+    docker compose up -d
+    echo "Cleaning up old images..."
+    docker image prune -f
+    echo "Done!"
+    SCRIPT
+  - chmod +x /opt/offbyone/update.sh
+
+  # Start the application
+  - cd /opt/offbyone && docker compose pull && docker compose up -d
+
+  # Set up automatic security updates
+  - |
+    cat > /etc/apt/apt.conf.d/20auto-upgrades << 'EOF'
+    APT::Periodic::Update-Package-Lists "1";
+    APT::Periodic::Unattended-Upgrade "1";
+    APT::Periodic::AutocleanInterval "7";
+    EOF
+
+# Note: SSH key is already added via hcloud_ssh_key resource for root user
+
+# Write files
+write_files:
+  - path: /opt/offbyone/.env
+    permissions: '0600'
+    content: |
+      NODE_ENV=production
+      DATABASE_PATH=/app/data/analytics.db
+
+final_message: "offbyone server ready after $UPTIME seconds"

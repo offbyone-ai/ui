@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Home">
+	<section class="container mx-auto px-4 py-24 md:py-32">
+		<div class="flex flex-col items-center text-center">
+			<h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+				Build your component library
+			</h1>
+			<p class="mt-6 max-w-2xl text-lg text-muted-foreground">
+				A collection of reusable React components built with Tailwind CSS.
+				Copy and paste into your apps. Open source and customizable.
+			</p>
+			<div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+				<a
+					href="/docs"
+					class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
+				>
+					Get Started
+				</a>
+				<a
+					href="/components"
+					class="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
+				>
+					Browse Components
+				</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="container mx-auto px-4 py-16">
+		<h2 class="mb-8 text-center text-2xl font-bold">Quick Install</h2>
+		<div class="mx-auto max-w-2xl">
+			<div class="rounded-lg border bg-muted/50 p-4">
+				<code class="text-sm">
+					npx shadcn@latest add https://offbyone.dev/r/button.json
+				</code>
+			</div>
+		</div>
+	</section>
+
+	<section class="container mx-auto px-4 py-16">
+		<h2 class="mb-8 text-center text-2xl font-bold">Features</h2>
+		<div class="grid gap-8 md:grid-cols-3">
+			<div class="rounded-lg border p-6">
+				<h3 class="mb-2 font-semibold">Copy & Paste</h3>
+				<p class="text-sm text-muted-foreground">
+					Components are yours. Copy the code and customize it to fit your needs.
+				</p>
+			</div>
+			<div class="rounded-lg border p-6">
+				<h3 class="mb-2 font-semibold">CLI Support</h3>
+				<p class="text-sm text-muted-foreground">
+					Use the shadcn CLI to add components directly to your project.
+				</p>
+			</div>
+			<div class="rounded-lg border p-6">
+				<h3 class="mb-2 font-semibold">Tailwind CSS</h3>
+				<p class="text-sm text-muted-foreground">
+					Built with Tailwind CSS for easy customization and theming.
+				</p>
+			</div>
+		</div>
+	</section>
+</BaseLayout>

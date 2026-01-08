@@ -1,0 +1,24 @@
+{
+	"name": "@offbyone/registry",
+	"version": "0.0.1",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"registry:build": "shadcn build --output ../../apps/web/public/r && cp registry.json ../../apps/web/public/r/index.json",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"tailwind-merge": "^2.6.0"
+	},
+	"devDependencies": {
+		"@types/react": "^19.0.2",
+		"@types/react-dom": "^19.0.2",
+		"shadcn": "^2.1.8",
+		"tailwindcss": "^3.4.17",
+		"typescript": "^5.7.2"
+	}
+}

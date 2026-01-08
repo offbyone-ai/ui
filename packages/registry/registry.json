@@ -1,0 +1,35 @@
+{
+	"$schema": "https://ui.shadcn.com/schema/registry.json",
+	"name": "offbyone",
+	"homepage": "https://offbyone.dev",
+	"items": [
+		{
+			"name": "button",
+			"type": "registry:ui",
+			"title": "Button",
+			"description": "A customizable button component with multiple variants and sizes.",
+			"dependencies": ["class-variance-authority", "clsx", "tailwind-merge"],
+			"registryDependencies": ["utils"],
+			"files": [
+				{
+					"path": "src/button/button.tsx",
+					"type": "registry:ui"
+				}
+			],
+			"categories": ["primitives"]
+		},
+		{
+			"name": "utils",
+			"type": "registry:lib",
+			"title": "Utilities",
+			"description": "Utility functions for class name merging.",
+			"dependencies": ["clsx", "tailwind-merge"],
+			"files": [
+				{
+					"path": "src/lib/utils.ts",
+					"type": "registry:lib"
+				}
+			]
+		}
+	]
+}
