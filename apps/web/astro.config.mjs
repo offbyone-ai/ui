@@ -4,7 +4,17 @@ import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-	integrations: [tailwind(), mdx(), react()],
+	integrations: [
+		tailwind(),
+		mdx({
+			syntaxHighlight: "shiki",
+			shikiConfig: {
+				theme: "github-dark",
+				wrap: true,
+			},
+		}),
+		react(),
+	],
 	output: "static",
 	site: "https://offbyone.dev",
 });

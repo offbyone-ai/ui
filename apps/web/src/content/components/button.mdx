@@ -1,0 +1,112 @@
+---
+title: Button
+description: A customizable button component with multiple variants and sizes.
+component: button
+---
+
+import { ButtonDemo, ButtonVariants, ButtonSizes, ButtonWithIcon, ButtonLoading, ButtonSecondary, ButtonDestructive, ButtonOutline, ButtonGhost, ButtonLink } from "@/components/examples/button-demo";
+import PreviewTabs from "@/components/ui/preview-tabs";
+
+## Usage
+
+Import the component:
+
+```tsx
+import { Button } from "@/components/ui/button"
+```
+
+Then use it in your code:
+
+```tsx
+<Button variant="outline">Button</Button>
+```
+
+## Examples
+
+### Default
+
+<PreviewTabs client:load code={`import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button>Button</Button>
+}`}>
+  <ButtonDemo client:load />
+</PreviewTabs>
+
+### Secondary
+
+<PreviewTabs client:load code={`<Button variant="secondary">Secondary</Button>`}>
+  <ButtonSecondary client:load />
+</PreviewTabs>
+
+### Destructive
+
+<PreviewTabs client:load code={`<Button variant="destructive">Destructive</Button>`}>
+  <ButtonDestructive client:load />
+</PreviewTabs>
+
+### Outline
+
+<PreviewTabs client:load code={`<Button variant="outline">Outline</Button>`}>
+  <ButtonOutline client:load />
+</PreviewTabs>
+
+### Ghost
+
+<PreviewTabs client:load code={`<Button variant="ghost">Ghost</Button>`}>
+  <ButtonGhost client:load />
+</PreviewTabs>
+
+### Link
+
+<PreviewTabs client:load code={`<Button variant="link">Link</Button>`}>
+  <ButtonLink client:load />
+</PreviewTabs>
+
+### All Variants
+
+<PreviewTabs client:load code={`<Button variant="default">Default</Button>
+<Button variant="secondary">Secondary</Button>
+<Button variant="destructive">Destructive</Button>
+<Button variant="outline">Outline</Button>
+<Button variant="ghost">Ghost</Button>
+<Button variant="link">Link</Button>`}>
+  <ButtonVariants client:load />
+</PreviewTabs>
+
+### Sizes
+
+<PreviewTabs client:load code={`<Button size="lg">Large</Button>
+<Button size="default">Default</Button>
+<Button size="sm">Small</Button>
+<Button size="icon">
+  <ArrowRightIcon />
+</Button>`}>
+  <ButtonSizes client:load />
+</PreviewTabs>
+
+### With Icon
+
+<PreviewTabs client:load code={`<Button>
+  <DownloadIcon />
+  Download
+</Button>`}>
+  <ButtonWithIcon client:load />
+</PreviewTabs>
+
+### Loading
+
+<PreviewTabs client:load code={`<Button disabled>
+  <LoaderIcon className="animate-spin" />
+  Please wait
+</Button>`}>
+  <ButtonLoading client:load />
+</PreviewTabs>
+
+## API Reference
+
+| Prop | Type | Default |
+|------|------|---------|
+| `variant` | `"default"` \| `"destructive"` \| `"outline"` \| `"secondary"` \| `"ghost"` \| `"link"` | `"default"` |
+| `size` | `"default"` \| `"sm"` \| `"lg"` \| `"icon"` | `"default"` |
+| `asChild` | `boolean` | `false` |

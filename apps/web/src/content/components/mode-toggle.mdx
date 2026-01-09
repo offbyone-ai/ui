@@ -1,0 +1,104 @@
+---
+title: Mode Toggle
+description: Toggle between light, dark, and system color modes.
+component: mode-toggle
+---
+
+import { ModeToggleDemo, ThemeSwitcherDemo } from "@/components/examples/theme-demo";
+import PreviewTabs from "@/components/ui/preview-tabs";
+
+## Usage
+
+The Mode Toggle requires a ThemeProvider wrapper:
+
+```tsx
+import { ThemeProvider } from "@/components/ui/theme-provider"
+import { ModeToggle } from "@/components/ui/mode-toggle"
+
+export default function App() {
+  return (
+    <ThemeProvider defaultMode="system">
+      <ModeToggle />
+    </ThemeProvider>
+  )
+}
+```
+
+## Examples
+
+### Default
+
+<PreviewTabs client:load code={`import { ModeToggle } from "@/components/ui/mode-toggle"
+
+<ModeToggle />`}>
+  <ModeToggleDemo client:load />
+</PreviewTabs>
+
+### With Theme Selector
+
+Combine with the Theme Selector for full theme control:
+
+<PreviewTabs client:load code={`import { ModeToggle } from "@/components/ui/mode-toggle"
+import { ThemeSelector } from "@/components/ui/theme-selector"
+
+<div className="space-y-4">
+  <div>
+    <p className="mb-2 text-sm font-medium">Color Mode</p>
+    <ModeToggle />
+  </div>
+  <div>
+    <p className="mb-2 text-sm font-medium">Theme Preset</p>
+    <ThemeSelector />
+  </div>
+</div>`}>
+  <ThemeSwitcherDemo client:load />
+</PreviewTabs>
+
+## Theme Provider
+
+Wrap your app with the ThemeProvider to enable theme switching:
+
+```tsx
+// app/layout.tsx or main.tsx
+import { ThemeProvider } from "@/components/ui/theme-provider"
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <ThemeProvider
+          defaultMode="system"
+          defaultPreset="default"
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+## API Reference
+
+### ThemeProvider Props
+
+| Prop | Type | Default |
+|------|------|---------|
+| `defaultMode` | `"light"` \| `"dark"` \| `"system"` | `"system"` |
+| `defaultPreset` | `ThemePreset` | `"default"` |
+| `modeStorageKey` | `string` | `"ui-theme-mode"` |
+| `presetStorageKey` | `string` | `"ui-theme-preset"` |
+
+### useTheme Hook
+
+```tsx
+const { mode, setMode, preset, setPreset, resolvedMode } = useTheme()
+```
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `mode` | `"light"` \| `"dark"` \| `"system"` | Current mode setting |
+| `setMode` | `(mode) => void` | Update the mode |
+| `preset` | `ThemePreset` | Current theme preset |
+| `setPreset` | `(preset) => void` | Update the preset |
+| `resolvedMode` | `"light"` \| `"dark"` | Actual mode after resolving "system" |

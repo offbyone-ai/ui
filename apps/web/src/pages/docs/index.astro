@@ -1,10 +1,9 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import DocsLayout from "@/layouts/DocsLayout.astro";
 ---
 
-<BaseLayout title="Documentation">
-	<div class="container mx-auto px-4 py-12">
-		<div class="mx-auto max-w-3xl">
+<DocsLayout title="Documentation" currentSlug="introduction">
+	<div>
 			<h1 class="mb-8 text-4xl font-bold">Getting Started</h1>
 
 			<section class="mb-12">
@@ -69,6 +68,5 @@ export function MyComponent() {
 					you own the code and can modify it however you need.
 				</p>
 			</section>
-		</div>
 	</div>
-</BaseLayout>
+</DocsLayout>

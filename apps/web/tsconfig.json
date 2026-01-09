@@ -4,7 +4,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"@offbyone/shared": ["../../packages/shared/src"]
+			"@offbyone/shared": ["../../packages/shared/src"],
+			"@offbyone/registry/*": ["../../packages/registry/src/*"]
 		}
 	},
 	"include": ["src/**/*", ".astro/types.d.ts"]

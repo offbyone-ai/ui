@@ -1,0 +1,126 @@
+---
+title: Theme Selector
+description: Dropdown selector for choosing theme presets with color previews.
+component: theme-selector
+---
+
+import { ThemeSelectorDemo, ThemeSwitcherDemo } from "@/components/examples/theme-demo";
+import PreviewTabs from "@/components/ui/preview-tabs";
+
+## Usage
+
+The Theme Selector requires a ThemeProvider wrapper:
+
+```tsx
+import { ThemeProvider } from "@/components/ui/theme-provider"
+import { ThemeSelector } from "@/components/ui/theme-selector"
+
+export default function App() {
+  return (
+    <ThemeProvider defaultPreset="default">
+      <ThemeSelector />
+    </ThemeProvider>
+  )
+}
+```
+
+## Examples
+
+### Default
+
+<PreviewTabs client:load code={`import { ThemeSelector } from "@/components/ui/theme-selector"
+
+<ThemeSelector />`}>
+  <ThemeSelectorDemo client:load />
+</PreviewTabs>
+
+### Full Theme Switcher
+
+Combine with the Mode Toggle for complete theme control:
+
+<PreviewTabs client:load code={`import { ModeToggle } from "@/components/ui/mode-toggle"
+import { ThemeSelector } from "@/components/ui/theme-selector"
+
+<div className="space-y-4">
+  <div>
+    <p className="mb-2 text-sm font-medium">Color Mode</p>
+    <ModeToggle />
+  </div>
+  <div>
+    <p className="mb-2 text-sm font-medium">Theme Preset</p>
+    <ThemeSelector />
+  </div>
+</div>`}>
+  <ThemeSwitcherDemo client:load />
+</PreviewTabs>
+
+## Available Presets
+
+| Preset | Description |
+|--------|-------------|
+| `default` | Clean and minimal design |
+| `forest` | Bold green accents inspired by nature |
+| `ocean` | Calm blues and aqua tones |
+| `sunset` | Warm oranges and golden hues |
+| `lavender` | Dreamy purples and soft violet tones |
+| `rose` | Elegant pinks and romantic hues |
+
+## Adding Theme CSS Variables
+
+To support theme presets, add CSS variables for each theme in your global styles:
+
+```css
+/* Default theme uses the base variables */
+
+[data-theme="forest"] {
+  --primary: 160 84% 39%;
+  --primary-foreground: 0 0% 98%;
+}
+
+[data-theme="ocean"] {
+  --primary: 201 96% 32%;
+  --primary-foreground: 0 0% 98%;
+}
+
+[data-theme="sunset"] {
+  --primary: 25 95% 53%;
+  --primary-foreground: 0 0% 98%;
+}
+
+[data-theme="lavender"] {
+  --primary: 263 70% 50%;
+  --primary-foreground: 0 0% 98%;
+}
+
+[data-theme="rose"] {
+  --primary: 347 77% 50%;
+  --primary-foreground: 0 0% 98%;
+}
+```
+
+## API Reference
+
+### ThemeSelector
+
+The component has no props - it reads from and writes to the ThemeProvider context.
+
+### Theme Presets Type
+
+```tsx
+type ThemePreset =
+  | "default"
+  | "forest"
+  | "ocean"
+  | "sunset"
+  | "lavender"
+  | "rose"
+```
+
+### useTheme Hook
+
+```tsx
+const { preset, setPreset } = useTheme()
+
+// Change theme
+setPreset("ocean")
+```

@@ -1,47 +1,31 @@
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import DocsLayout from "@/layouts/DocsLayout.astro";
 
-const components = [
-	{
-		name: "button",
-		title: "Button",
-		description:
-			"A customizable button component with multiple variants and sizes.",
-		categories: ["primitives"],
-	},
-];
+const components = await getCollection("components");
 ---
 
-<BaseLayout title="Components">
-	<div class="container mx-auto px-4 py-12">
-		<div class="mb-8">
-			<h1 class="mb-2 text-4xl font-bold">Components</h1>
-			<p class="text-muted-foreground">
-				Browse and install components from the offbyone registry.
-			</p>
-		</div>
-
-		<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-			{components.map((component) => (
-				<a
-					href={`/components/${component.name}`}
-					class="group rounded-lg border p-6 transition-colors hover:bg-muted/50"
-				>
-					<h2 class="mb-2 font-semibold group-hover:underline">
-						{component.title}
-					</h2>
-					<p class="mb-4 text-sm text-muted-foreground">
-						{component.description}
-					</p>
-					<div class="flex flex-wrap gap-2">
-						{component.categories.map((category) => (
-							<span class="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground">
-								{category}
-							</span>
-						))}
-					</div>
-				</a>
-			))}
-		</div>
+<DocsLayout title="Components">
+	<div class="mb-8">
+		<h1 class="mb-2 text-4xl font-bold">Components</h1>
+		<p class="text-muted-foreground">
+			Browse and install components from the offbyone registry.
+		</p>
 	</div>
-</BaseLayout>
+
+	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{components.map((component) => (
+			<a
+				href={`/components/${component.data.component}`}
+				class="group rounded-lg border p-6 transition-colors hover:bg-muted/50"
+			>
+				<h2 class="mb-2 font-semibold group-hover:underline">
+					{component.data.title}
+				</h2>
+				<p class="mb-4 text-sm text-muted-foreground">
+					{component.data.description}
+				</p>
+			</a>
+		))}
+	</div>
+</DocsLayout>

@@ -1,0 +1,21 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import DocsSidebar from "@/components/docs-sidebar.astro";
+
+interface Props {
+	title: string;
+	description?: string;
+	currentSlug?: string;
+}
+
+const { title, description, currentSlug } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+	<div class="container mx-auto flex gap-8 px-4 py-8">
+		<DocsSidebar currentSlug={currentSlug} />
+		<main class="min-w-0 flex-1">
+			<slot />
+		</main>
+	</div>
+</BaseLayout>

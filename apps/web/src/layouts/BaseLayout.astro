@@ -1,5 +1,6 @@
 ---
 import "@/styles/globals.css";
+import { HeaderThemeToggle } from "@/components/header-theme-toggle";
 
 interface Props {
 	title: string;
@@ -18,6 +19,17 @@ const { title, description = "offbyone - A React component registry" } =
 		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title} | offbyone</title>
+		<script is:inline>
+			// Prevent flash of wrong theme
+			(function() {
+				const mode = localStorage.getItem('ui-theme-mode') || 'system';
+				let theme = mode;
+				if (mode === 'system') {
+					theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+				}
+				document.documentElement.classList.add(theme);
+			})();
+		</script>
 	</head>
 	<body class="min-h-screen antialiased">
 		<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -34,8 +46,9 @@ const { title, description = "offbyone - A React component registry" } =
 					</a>
 				</nav>
 				<div class="flex flex-1 items-center justify-end space-x-4">
+					<HeaderThemeToggle client:load />
 					<a
-						href="https://github.com/offbyone"
+						href="https://github.com/offbyone-ai"
 						target="_blank"
 						rel="noopener noreferrer"
 						class="text-foreground/60 hover:text-foreground"
@@ -47,9 +60,7 @@ const { title, description = "offbyone - A React component registry" } =
 				</div>
 			</div>
 		</header>
-		<main>
-			<slot />
-		</main>
+		<slot />
 		<footer class="border-t py-6 md:py-0">
 			<div class="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:h-16 md:flex-row">
 				<p class="text-sm text-muted-foreground">
