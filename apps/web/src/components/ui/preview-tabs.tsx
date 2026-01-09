@@ -1,9 +1,9 @@
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+import { CodeBlock } from "./code-block";
 import { ComponentPreview } from "./component-preview";
 import { CopyButton } from "./copy-button";
-import { CodeBlock } from "./code-block";
-import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 
 interface PreviewTabsProps {
 	children: ReactNode;

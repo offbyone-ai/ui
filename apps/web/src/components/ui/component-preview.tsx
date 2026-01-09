@@ -1,12 +1,15 @@
-import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import type { ReactNode } from "react";
 
 interface ComponentPreviewProps {
 	children: ReactNode;
 	className?: string;
 }
 
-export function ComponentPreview({ children, className }: ComponentPreviewProps) {
+export function ComponentPreview({
+	children,
+	className,
+}: ComponentPreviewProps) {
 	return (
 		<div
 			className={cn(

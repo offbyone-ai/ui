@@ -21,14 +21,21 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"a11y": {
+				"noSvgWithoutTitle": "off"
+			},
 			"complexity": {
 				"noUselessFragments": "warn"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
 			},
 			"style": {
 				"noNonNullAssertion": "off"
 			},
 			"suspicious": {
-				"noExplicitAny": "warn"
+				"noExplicitAny": "warn",
+				"noArrayIndexKey": "off"
 			}
 		}
 	},

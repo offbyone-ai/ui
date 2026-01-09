@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Check, ChevronDown } from "lucide-react";
-import { useTheme, themePresets } from "./theme-provider";
 import { cn } from "@/lib/utils";
+import { Check, ChevronDown } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { type ThemePreset, themePresets, useTheme } from "./theme-provider";
 
 export function ThemeSelector() {
 	const [isOpen, setIsOpen] = useState(false);
@@ -28,10 +28,10 @@ export function ThemeSelector() {
 		};
 	}, [isOpen]);
 
-	const { preset: currentPreset, setPreset, resolvedMode } = useTheme();
+	const { preset: currentPreset, setPreset } = useTheme();
 	const currentTheme = themePresets.find((t) => t.value === currentPreset);
 
-	function applyThemePreview(value: string) {
+	const applyThemePreview = useCallback((value: string) => {
 		const root = window.document.documentElement;
 
 		// Only toggle the data-theme attribute for preview; do not
@@ -41,23 +41,21 @@ export function ThemeSelector() {
 		} else {
 			root.setAttribute("data-theme", value);
 		}
-	}
+	}, []);
 
-	function restoreTheme() {
+	const restoreTheme = useCallback(() => {
 		applyThemePreview(currentPreset);
-	}
+	}, [applyThemePreview, currentPreset]);
 
 	useEffect(() => {
-		// Ensure theme is restored when dropdown closes or component unmounts
 		if (!isOpen) {
 			restoreTheme();
 		}
-	}, [isOpen]);
+	}, [isOpen, restoreTheme]);
 
 	useEffect(() => {
-		// Restore when preset or resolvedMode changes elsewhere
 		restoreTheme();
-	}, [currentPreset, resolvedMode]);
+	}, [restoreTheme]);
 
 	return (
 		<div className="relative" ref={dropdownRef}>
@@ -97,7 +95,7 @@ export function ThemeSelector() {
 								key={t.value}
 								type="button"
 								onClick={() => {
-									setPreset(t.value as any);
+									setPreset(t.value as ThemePreset);
 									setIsOpen(false);
 								}}
 								onMouseEnter={() => applyThemePreview(t.value)}

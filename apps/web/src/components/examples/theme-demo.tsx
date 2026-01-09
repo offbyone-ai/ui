@@ -1,5 +1,5 @@
-import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ThemeSelector } from "@/components/ui/theme-selector";
 
 export function ModeToggleDemo() {

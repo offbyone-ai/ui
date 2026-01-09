@@ -1,8 +1,8 @@
 "use client";
 
-import { Sun, Moon, Monitor } from "lucide-react";
-import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 
 type ThemeMode = "light" | "dark" | "system";
 
@@ -59,9 +59,15 @@ export function HeaderThemeToggle() {
 	if (!mounted) {
 		return (
 			<div className="flex items-center gap-0.5 rounded-md border bg-muted/50 p-0.5">
-				<div className="rounded p-1.5"><Sun className="h-4 w-4 text-muted-foreground" /></div>
-				<div className="rounded p-1.5"><Moon className="h-4 w-4 text-muted-foreground" /></div>
-				<div className="rounded p-1.5"><Monitor className="h-4 w-4 text-muted-foreground" /></div>
+				<div className="rounded p-1.5">
+					<Sun className="h-4 w-4 text-muted-foreground" />
+				</div>
+				<div className="rounded p-1.5">
+					<Moon className="h-4 w-4 text-muted-foreground" />
+				</div>
+				<div className="rounded p-1.5">
+					<Monitor className="h-4 w-4 text-muted-foreground" />
+				</div>
 			</div>
 		);
 	}

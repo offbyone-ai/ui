@@ -1,8 +1,8 @@
 "use client";
 
-import { Sun, Moon, Monitor } from "lucide-react";
-import { useTheme } from "./theme-provider";
 import { cn } from "@/lib/utils";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { useTheme } from "./theme-provider";
 
 export function ModeToggleCompact() {
 	const { mode, setMode } = useTheme();
