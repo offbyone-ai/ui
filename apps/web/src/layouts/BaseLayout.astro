@@ -7,7 +7,7 @@ interface Props {
 	description?: string;
 }
 
-const { title, description = "offbyone - A React component registry" } =
+const { title, description = "Off By One UI - Open source React components" } =
 	Astro.props;
 ---
 
@@ -18,7 +18,7 @@ const { title, description = "offbyone - A React component registry" } =
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content={description} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title} | offbyone</title>
+		<title>{title} | Off By One UI</title>
 		<script is:inline>
 			// Prevent flash of wrong theme
 			(function() {
@@ -35,7 +35,7 @@ const { title, description = "offbyone - A React component registry" } =
 		<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
 			<div class="container mx-auto flex h-14 items-center px-4">
 				<a href="/" class="mr-6 flex items-center space-x-2">
-					<span class="font-bold">offbyone</span>
+					<span class="font-bold">Off By One UI</span>
 				</a>
 				<nav class="flex items-center space-x-6 text-sm font-medium">
 					<a href="/docs" class="transition-colors hover:text-foreground/80 text-foreground/60">
@@ -64,7 +64,7 @@ const { title, description = "offbyone - A React component registry" } =
 		<footer class="border-t py-6 md:py-0">
 			<div class="container mx-auto flex flex-col items-center justify-between gap-4 px-4 md:h-16 md:flex-row">
 				<p class="text-sm text-muted-foreground">
-					Built with Astro. Components inspired by shadcn/ui.
+					Open source components from Off By One. Built with Astro and inspired by shadcn/ui.
 				</p>
 			</div>
 		</footer>

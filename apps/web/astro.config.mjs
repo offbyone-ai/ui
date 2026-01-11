@@ -16,5 +16,5 @@ export default defineConfig({
 		react(),
 	],
 	output: "static",
-	site: "https://offbyone.dev",
+	site: "https://ui.offbyone.ai",
 });

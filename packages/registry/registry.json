@@ -1,7 +1,7 @@
 {
 	"$schema": "https://ui.shadcn.com/schema/registry.json",
 	"name": "offbyone",
-	"homepage": "https://offbyone.dev",
+	"homepage": "https://ui.offbyone.ai",
 	"items": [
 		{
 			"name": "button",
