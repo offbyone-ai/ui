@@ -1,0 +1,15 @@
+# Off By One Caddy Configuration
+# Add new sites by adding blocks below
+
+ui.offbyone.ai {
+	reverse_proxy offbyone-ui:3000
+}
+
+# Example: Add more sites
+# api.offbyone.ai {
+# 	reverse_proxy offbyone-api:3001
+# }
+#
+# other-project.example.com {
+# 	reverse_proxy other-app:8080
+# }

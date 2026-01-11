@@ -21,31 +21,86 @@ runcmd:
   # Login to GitHub Container Registry
   - echo "${gh_token}" | docker login ghcr.io -u ${gh_username} --password-stdin
 
+  # Create shared Docker network for all apps
+  - docker network create web || true
+
+  # Create Caddy directory and config
+  - mkdir -p /opt/caddy
+  - |
+    cat > /opt/caddy/Caddyfile << 'EOF'
+    # Off By One Caddy Configuration
+    # Add new sites by adding blocks below
+
+    ui.offbyone.ai {
+        reverse_proxy offbyone-ui:3000
+    }
+
+    # Example: Add more sites
+    # api.offbyone.ai {
+    #     reverse_proxy offbyone-api:3001
+    # }
+    EOF
+
+  - |
+    cat > /opt/caddy/docker-compose.yml << 'EOF'
+    services:
+      caddy:
+        image: caddy:2-alpine
+        container_name: caddy
+        ports:
+          - "80:80"
+          - "443:443"
+        volumes:
+          - ./Caddyfile:/etc/caddy/Caddyfile:ro
+          - caddy_data:/data
+          - caddy_config:/config
+        networks:
+          - web
+        restart: unless-stopped
+
+    networks:
+      web:
+        external: true
+
+    volumes:
+      caddy_data:
+      caddy_config:
+    EOF
+
+  # Start Caddy
+  - cd /opt/caddy && docker compose up -d
+
   # Create app directory
   - mkdir -p /opt/offbyone/data
 
-  # Create docker-compose file
+  # Create docker-compose file for the app
   - |
     cat > /opt/offbyone/docker-compose.yml << 'EOF'
     services:
       app:
         image: ${app_image}
-        container_name: offbyone
+        container_name: offbyone-ui
         restart: unless-stopped
-        ports:
-          - "3000:3000"
+        expose:
+          - "3000"
         environment:
           - NODE_ENV=production
           - DATABASE_PATH=/app/data/analytics.db
           - STATIC_PATH=./static
         volumes:
           - ./data:/app/data
+        networks:
+          - web
         healthcheck:
           test: ["CMD", "bun", "--eval", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1))"]
           interval: 30s
           timeout: 10s
           retries: 3
           start_period: 10s
+
+    networks:
+      web:
+        external: true
     EOF
 
   # Create update script

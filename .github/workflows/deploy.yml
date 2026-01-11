@@ -108,5 +108,5 @@ jobs:
       - name: Health check
         run: |
           sleep 10
-          curl -f http://${{ secrets.SERVER_HOST }}:3000/api/health || exit 1
+          curl -f https://ui.offbyone.ai/api/health || exit 1
           echo "Health check passed!"

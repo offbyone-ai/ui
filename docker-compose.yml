@@ -3,8 +3,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
+    container_name: offbyone-ui
+    expose:
+      - "3000"
     environment:
       - NODE_ENV=production
       - DATABASE_PATH=/app/data/analytics.db
@@ -12,6 +13,8 @@ services:
       - CORS_ORIGIN=*
     volumes:
       - analytics-data:/app/data
+    networks:
+      - web
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "bun", "--eval", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1))"]
@@ -38,6 +41,10 @@ services:
     command: bun run dev
     profiles:
       - dev
+
+networks:
+  web:
+    external: true
 
 volumes:
   analytics-data:
