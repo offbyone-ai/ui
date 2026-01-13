@@ -95,9 +95,87 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Setup Caddy (if not exists)
+        run: |
+          ssh root@${{ secrets.SERVER_HOST }} << 'EOF'
+            # Create shared Docker network (if not exists)
+            docker network create web 2>/dev/null || true
+
+            # Setup Caddy if not already running
+            if [ ! -f /opt/caddy/docker-compose.yml ]; then
+              echo "Setting up Caddy..."
+              mkdir -p /opt/caddy
+
+              cat > /opt/caddy/Caddyfile << 'CADDYFILE'
+            ui.offbyone.ai {
+                reverse_proxy offbyone-ui:3000
+            }
+            CADDYFILE
+
+              cat > /opt/caddy/docker-compose.yml << 'COMPOSE'
+            services:
+              caddy:
+                image: caddy:2-alpine
+                container_name: caddy
+                ports:
+                  - "80:80"
+                  - "443:443"
+                volumes:
+                  - ./Caddyfile:/etc/caddy/Caddyfile:ro
+                  - caddy_data:/data
+                  - caddy_config:/config
+                networks:
+                  - web
+                restart: unless-stopped
+
+            networks:
+              web:
+                external: true
+
+            volumes:
+              caddy_data:
+              caddy_config:
+            COMPOSE
+
+              cd /opt/caddy && docker compose up -d
+              echo "Caddy setup complete!"
+            else
+              echo "Caddy already configured"
+            fi
+          EOF
+
       - name: Deploy to server
         run: |
           ssh root@${{ secrets.SERVER_HOST }} << 'EOF'
+            # Update app docker-compose to use web network
+            cat > /opt/offbyone/docker-compose.yml << 'COMPOSE'
+            services:
+              app:
+                image: ghcr.io/offbyone-ai/ui:latest
+                container_name: offbyone-ui
+                restart: unless-stopped
+                expose:
+                  - "3000"
+                environment:
+                  - NODE_ENV=production
+                  - DATABASE_PATH=/app/data/analytics.db
+                  - STATIC_PATH=./static
+                volumes:
+                  - ./data:/app/data
+                networks:
+                  - web
+                healthcheck:
+                  test: ["CMD", "bun", "--eval", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1))"]
+                  interval: 30s
+                  timeout: 10s
+                  retries: 3
+                  start_period: 10s
+
+            networks:
+              web:
+                external: true
+            COMPOSE
+
             cd /opt/offbyone
             docker compose pull
             docker compose up -d
