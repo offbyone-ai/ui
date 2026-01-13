@@ -97,91 +97,42 @@ jobs:
 
       - name: Setup Caddy (if not exists)
         run: |
-          ssh root@${{ secrets.SERVER_HOST }} << 'EOF'
-            # Create shared Docker network (if not exists)
+          # Base64 encoded Caddyfile
+          CADDYFILE_B64="dWkub2ZmYnlvbmUuYWkgewogICAgcmV2ZXJzZV9wcm94eSBvZmZieW9uZS11aTozMDAwCn0K"
+
+          # Base64 encoded Caddy docker-compose.yml
+          CADDY_COMPOSE_B64="c2VydmljZXM6CiAgY2FkZHk6CiAgICBpbWFnZTogY2FkZHk6Mi1hbHBpbmUKICAgIGNvbnRhaW5lcl9uYW1lOiBjYWRkeQogICAgcG9ydHM6CiAgICAgIC0gIjgwOjgwIgogICAgICAtICI0NDM6NDQzIgogICAgdm9sdW1lczoKICAgICAgLSAuL0NhZGR5ZmlsZTovZXRjL2NhZGR5L0NhZGR5ZmlsZTpybwogICAgICAtIGNhZGR5X2RhdGE6L2RhdGEKICAgICAgLSBjYWRkeV9jb25maWc6L2NvbmZpZwogICAgbmV0d29ya3M6CiAgICAgIC0gd2ViCiAgICByZXN0YXJ0OiB1bmxlc3Mtc3RvcHBlZAoKbmV0d29ya3M6CiAgd2ViOgogICAgZXh0ZXJuYWw6IHRydWUKCnZvbHVtZXM6CiAgY2FkZHlfZGF0YToKICBjYWRkeV9jb25maWc6Cg=="
+
+          ssh root@${{ secrets.SERVER_HOST }} "
+            set -e
             docker network create web 2>/dev/null || true
 
-            # Setup Caddy if not already running
             if [ ! -f /opt/caddy/docker-compose.yml ]; then
-              echo "Setting up Caddy..."
+              echo 'Setting up Caddy...'
               mkdir -p /opt/caddy
-
-              cat > /opt/caddy/Caddyfile << 'CADDYFILE'
-            ui.offbyone.ai {
-                reverse_proxy offbyone-ui:3000
-            }
-            CADDYFILE
-
-              cat > /opt/caddy/docker-compose.yml << 'COMPOSE'
-            services:
-              caddy:
-                image: caddy:2-alpine
-                container_name: caddy
-                ports:
-                  - "80:80"
-                  - "443:443"
-                volumes:
-                  - ./Caddyfile:/etc/caddy/Caddyfile:ro
-                  - caddy_data:/data
-                  - caddy_config:/config
-                networks:
-                  - web
-                restart: unless-stopped
-
-            networks:
-              web:
-                external: true
-
-            volumes:
-              caddy_data:
-              caddy_config:
-            COMPOSE
-
+              echo '$CADDYFILE_B64' | base64 -d > /opt/caddy/Caddyfile
+              echo '$CADDY_COMPOSE_B64' | base64 -d > /opt/caddy/docker-compose.yml
               cd /opt/caddy && docker compose up -d
-              echo "Caddy setup complete!"
+              echo 'Caddy setup complete!'
             else
-              echo "Caddy already configured"
+              echo 'Caddy already configured'
             fi
-          EOF
+          "
 
       - name: Deploy to server
         run: |
-          ssh root@${{ secrets.SERVER_HOST }} << 'EOF'
-            # Update app docker-compose to use web network
-            cat > /opt/offbyone/docker-compose.yml << 'COMPOSE'
-            services:
-              app:
-                image: ghcr.io/offbyone-ai/ui:latest
-                container_name: offbyone-ui
-                restart: unless-stopped
-                expose:
-                  - "3000"
-                environment:
-                  - NODE_ENV=production
-                  - DATABASE_PATH=/app/data/analytics.db
-                  - STATIC_PATH=./static
-                volumes:
-                  - ./data:/app/data
-                networks:
-                  - web
-                healthcheck:
-                  test: ["CMD", "bun", "--eval", "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1))"]
-                  interval: 30s
-                  timeout: 10s
-                  retries: 3
-                  start_period: 10s
+          # Base64 encoded app docker-compose.yml
+          APP_COMPOSE_B64="c2VydmljZXM6CiAgYXBwOgogICAgaW1hZ2U6IGdoY3IuaW8vb2ZmYnlvbmUtYWkvdWk6bGF0ZXN0CiAgICBjb250YWluZXJfbmFtZTogb2ZmYnlvbmUtdWkKICAgIHJlc3RhcnQ6IHVubGVzcy1zdG9wcGVkCiAgICBleHBvc2U6CiAgICAgIC0gIjMwMDAiCiAgICBlbnZpcm9ubWVudDoKICAgICAgLSBOT0RFX0VOVj1wcm9kdWN0aW9uCiAgICAgIC0gREFUQUJBU0VfUEFUSD0vYXBwL2RhdGEvYW5hbHl0aWNzLmRiCiAgICAgIC0gU1RBVElDX1BBVEg9Li9zdGF0aWMKICAgIHZvbHVtZXM6CiAgICAgIC0gLi9kYXRhOi9hcHAvZGF0YQogICAgbmV0d29ya3M6CiAgICAgIC0gd2ViCiAgICBoZWFsdGhjaGVjazoKICAgICAgdGVzdDogWyJDTUQiLCAiYnVuIiwgIi0tZXZhbCIsICJmZXRjaCgnaHR0cDovL2xvY2FsaG9zdDozMDAwL2FwaS9oZWFsdGgnKS50aGVuKHIgPT4gci5vayA/IHByb2Nlc3MuZXhpdCgwKSA6IHByb2Nlc3MuZXhpdCgxKSkiXQogICAgICBpbnRlcnZhbDogMzBzCiAgICAgIHRpbWVvdXQ6IDEwcwogICAgICByZXRyaWVzOiAzCiAgICAgIHN0YXJ0X3BlcmlvZDogMTBzCgpuZXR3b3JrczoKICB3ZWI6CiAgICBleHRlcm5hbDogdHJ1ZQo="
 
-            networks:
-              web:
-                external: true
-            COMPOSE
-
+          ssh root@${{ secrets.SERVER_HOST }} "
+            set -e
+            echo '$APP_COMPOSE_B64' | base64 -d > /opt/offbyone/docker-compose.yml
             cd /opt/offbyone
             docker compose pull
             docker compose up -d
             docker image prune -f
-            echo "Deployment complete!"
-          EOF
+            echo 'Deployment complete!'
+          "
 
       - name: Health check
         run: |
