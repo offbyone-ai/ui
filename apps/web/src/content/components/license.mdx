@@ -25,7 +25,7 @@ import { LicenseProvider } from "@/lib/license"
 export default function App({ children }) {
   return (
     <LicenseProvider
-      appName="My App"
+      appName={config.name}
       appId={config.pay.appId}
       priceId={config.pay.priceId}
       price={config.pay.price}
