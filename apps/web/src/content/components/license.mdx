@@ -31,7 +31,7 @@ export default function App({ children }) {
       price={config.pay.price}
       payUrl={config.pay.url}
       appDescription="Buy once, use forever."
-      supportUrl="https://example.com/support"
+      supportUrl={config.links.text()}
     >
       {children}
     </LicenseProvider>
