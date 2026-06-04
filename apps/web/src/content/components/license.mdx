@@ -1,0 +1,132 @@
+---
+title: License
+description: Paywall and license management for one-time purchase apps. Includes LicenseProvider, Paywall drawer, and useLicense hook.
+component: license
+---
+
+import { LicensePaywallChoose, LicensePaywallRestore, LicensePaywallRestored } from "@/components/examples/license-demo";
+import PreviewTabs from "@/components/ui/preview-tabs";
+
+## Installation
+
+```sh
+npx shadcn@latest add https://ui.offbyone.ai/r/license.json
+```
+
+This also installs `button`, `drawer`, and `input` from shadcn if not already present.
+
+## Usage
+
+Wrap your app with `LicenseProvider`, passing your payment configuration:
+
+```tsx
+import { LicenseProvider } from "@/lib/license"
+
+export default function App({ children }) {
+  return (
+    <LicenseProvider
+      appName="My App"
+      appId={config.pay.appId}
+      priceId={config.pay.priceId}
+      price={config.pay.price}
+      payUrl={config.pay.url}
+      appDescription="Buy once, use forever."
+      supportUrl="https://example.com/support"
+    >
+      {children}
+    </LicenseProvider>
+  )
+}
+```
+
+Gate content with the `useLicense` hook:
+
+```tsx
+import { useLicense } from "@/lib/license"
+
+export function PremiumFeature() {
+  const { licensed, openPaywall } = useLicense()
+
+  if (!licensed) {
+    return (
+      <button onClick={() => openPaywall("Unlock this feature.")}>
+        Upgrade to access
+      </button>
+    )
+  }
+
+  return <div>Premium content</div>
+}
+```
+
+## Examples
+
+### Default (Buy step)
+
+<PreviewTabs client:load code={`<LicenseProvider
+  appName="My App"
+  appId="my-app"
+  priceId="price_abc123"
+  price={29}
+  payUrl="https://pay.example.com"
+  appDescription="Buy once, use forever."
+>
+  {/* opens when openPaywall() is called */}
+</LicenseProvider>`}>
+  <LicensePaywallChoose client:load />
+</PreviewTabs>
+
+### Restore purchase
+
+<PreviewTabs client:load code={`// Triggered by "Already bought?" inside the Paywall`}>
+  <LicensePaywallRestore client:load />
+</PreviewTabs>
+
+### License restored
+
+<PreviewTabs client:load code={`// Shown after a successful email restore`}>
+  <LicensePaywallRestored client:load />
+</PreviewTabs>
+
+## API Reference
+
+### LicenseProvider Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `appName` | `string` | ✓ | Displayed in the paywall title and description |
+| `appId` | `string` | ✓ | Unique app identifier sent to the payment API |
+| `priceId` | `string` | ✓ | Price ID passed to the checkout endpoint |
+| `price` | `number` | ✓ | Display price in USD (e.g. `29` → "$29.00 one time") |
+| `payUrl` | `string` | ✓ | Base URL of your payment server |
+| `appDescription` | `string` | — | Subtitle shown in the paywall when no reason is provided |
+| `supportUrl` | `string` | — | Link shown in the "Need help?" button; omitted if not set |
+
+### useLicense Hook
+
+```tsx
+const {
+  licensed,         // boolean — whether the user has a valid license
+  paywallOpen,      // boolean — whether the paywall drawer is open
+  openPaywall,      // (reason?: string) => void
+  closePaywall,     // () => void
+  startCheckout,    // () => Promise<void> — redirects to Stripe checkout
+  restoreByEmail,   // (email: string) => Promise<boolean>
+  requireLicense,   // () => Promise<boolean> — re-validates with server
+  revoke,           // () => void — clears stored license
+  onBeforeCheckout, // (fn: () => void | Promise<void>) => void
+  onPaymentSuccess, // (fn: () => void | Promise<void>) => void
+} = useLicense()
+```
+
+### Standalone API Functions
+
+You can call these directly without `LicenseProvider`:
+
+```tsx
+import { createCheckout, verifySession, restoreByEmail } from "@/lib/license"
+
+const url = await createCheckout({ payUrl, appId, priceId })
+const paid = await verifySession({ payUrl, appId }, sessionId)
+const found = await restoreByEmail({ payUrl, appId }, email)
+```

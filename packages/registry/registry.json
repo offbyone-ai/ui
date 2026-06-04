@@ -63,6 +63,22 @@
 			"categories": ["theme"]
 		},
 		{
+			"name": "license",
+			"type": "registry:lib",
+			"title": "License",
+			"description": "Paywall and license management for one-time purchase apps. Includes LicenseProvider, Paywall drawer, and useLicense hook.",
+			"dependencies": ["lucide-react"],
+			"registryDependencies": ["utils", "button", "drawer", "input"],
+			"files": [
+				{
+					"path": "src/license/license.tsx",
+					"type": "registry:lib",
+					"target": "lib/license.tsx"
+				}
+			],
+			"categories": ["monetization"]
+		},
+		{
 			"name": "utils",
 			"type": "registry:lib",
 			"title": "Utilities",
