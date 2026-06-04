@@ -19,7 +19,7 @@ RUN bun install --frozen-lockfile
 COPY . .
 
 # Build the web app, API, and registry
-RUN bun run build && bun run registry:build
+RUN bun run registry:build && bun run build
 
 # Production stage
 FROM oven/bun:1-slim AS production
