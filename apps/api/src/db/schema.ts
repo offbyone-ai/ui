@@ -31,57 +31,57 @@ db.run(`
 `);
 
 export interface AnalyticsEventRow {
-	id: number;
-	type: "view" | "download";
-	component_name: string;
-	timestamp: number;
-	referrer: string | null;
-	cli_version: string | null;
-	metadata: string | null;
-	created_at: string;
+  id: number;
+  type: "view" | "download";
+  component_name: string;
+  timestamp: number;
+  referrer: string | null;
+  cli_version: string | null;
+  metadata: string | null;
+  created_at: string;
 }
 
 export function insertEvent(event: {
-	type: "view" | "download";
-	componentName: string;
-	timestamp: number;
-	referrer?: string;
-	cliVersion?: string;
-	metadata?: Record<string, unknown>;
+  type: "view" | "download";
+  componentName: string;
+  timestamp: number;
+  referrer?: string;
+  cliVersion?: string;
+  metadata?: Record<string, unknown>;
 }) {
-	const stmt = db.prepare(`
+  const stmt = db.prepare(`
     INSERT INTO analytics_events (type, component_name, timestamp, referrer, cli_version, metadata)
     VALUES ($type, $componentName, $timestamp, $referrer, $cliVersion, $metadata)
   `);
 
-	stmt.run({
-		$type: event.type,
-		$componentName: event.componentName,
-		$timestamp: event.timestamp,
-		$referrer: event.referrer || null,
-		$cliVersion: event.cliVersion || null,
-		$metadata: event.metadata ? JSON.stringify(event.metadata) : null,
-	});
+  stmt.run({
+    $type: event.type,
+    $componentName: event.componentName,
+    $timestamp: event.timestamp,
+    $referrer: event.referrer || null,
+    $cliVersion: event.cliVersion || null,
+    $metadata: event.metadata ? JSON.stringify(event.metadata) : null,
+  });
 }
 
 export function getStats() {
-	const totalViews =
-		db
-			.query<{ count: number }, []>(
-				"SELECT COUNT(*) as count FROM analytics_events WHERE type = 'view'"
-			)
-			.get()?.count ?? 0;
+  const totalViews =
+    db
+      .query<{ count: number }, []>(
+        "SELECT COUNT(*) as count FROM analytics_events WHERE type = 'view'"
+      )
+      .get()?.count ?? 0;
 
-	const totalDownloads =
-		db
-			.query<{ count: number }, []>(
-				"SELECT COUNT(*) as count FROM analytics_events WHERE type = 'download'"
-			)
-			.get()?.count ?? 0;
+  const totalDownloads =
+    db
+      .query<{ count: number }, []>(
+        "SELECT COUNT(*) as count FROM analytics_events WHERE type = 'download'"
+      )
+      .get()?.count ?? 0;
 
-	const componentStats = db
-		.query<{ name: string; views: number; downloads: number }, []>(
-			`
+  const componentStats = db
+    .query<{ name: string; views: number; downloads: number }, []>(
+      `
       SELECT
         component_name as name,
         SUM(CASE WHEN type = 'view' THEN 1 ELSE 0 END) as views,
@@ -90,12 +90,12 @@ export function getStats() {
       GROUP BY component_name
       ORDER BY views + downloads DESC
     `
-		)
-		.all();
+    )
+    .all();
 
-	return {
-		totalViews,
-		totalDownloads,
-		componentStats,
-	};
+  return {
+    totalViews,
+    totalDownloads,
+    componentStats,
+  };
 }

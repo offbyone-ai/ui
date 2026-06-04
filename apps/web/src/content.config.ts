@@ -2,12 +2,12 @@ import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
 const components = defineCollection({
-	loader: glob({ pattern: "**/*.mdx", base: "./src/content/components" }),
-	schema: z.object({
-		title: z.string(),
-		description: z.string(),
-		component: z.string(),
-	}),
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/components" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    component: z.string(),
+  }),
 });
 
 export const collections = { components };

@@ -2,28 +2,28 @@
 import { getCollection } from "astro:content";
 
 interface Props {
-	currentSlug?: string;
+  currentSlug?: string;
 }
 
 const { currentSlug } = Astro.props;
 const components = await getCollection("components");
 
 const navigation = [
-	{
-		title: "Getting Started",
-		items: [
-			{ title: "Introduction", href: "/docs" },
-			{ title: "Installation", href: "/docs#installation" },
-		],
-	},
-	{
-		title: "Components",
-		items: components.map((c) => ({
-			title: c.data.title,
-			href: `/components/${c.data.component}`,
-			isActive: currentSlug === c.data.component,
-		})),
-	},
+  {
+    title: "Getting Started",
+    items: [
+      { title: "Introduction", href: "/docs" },
+      { title: "Installation", href: "/docs#installation" },
+    ],
+  },
+  {
+    title: "Components",
+    items: components.map((c) => ({
+      title: c.data.title,
+      href: `/components/${c.data.component}`,
+      isActive: currentSlug === c.data.component,
+    })),
+  },
 ];
 ---
 

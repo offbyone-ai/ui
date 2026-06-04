@@ -1,95 +1,95 @@
 {
-	"$schema": "https://ui.shadcn.com/schema/registry.json",
-	"name": "offbyone",
-	"homepage": "https://ui.offbyone.ai",
-	"items": [
-		{
-			"name": "button",
-			"type": "registry:ui",
-			"title": "Button",
-			"description": "A customizable button component with multiple variants and sizes.",
-			"dependencies": ["class-variance-authority", "clsx", "tailwind-merge"],
-			"registryDependencies": ["utils"],
-			"files": [
-				{
-					"path": "src/button/button.tsx",
-					"type": "registry:ui"
-				}
-			],
-			"categories": ["primitives"]
-		},
-		{
-			"name": "theme-provider",
-			"type": "registry:ui",
-			"title": "Theme Provider",
-			"description": "Context provider for theme presets and color mode (light/dark/system).",
-			"dependencies": [],
-			"files": [
-				{
-					"path": "src/theme-provider/theme-provider.tsx",
-					"type": "registry:ui"
-				}
-			],
-			"categories": ["theme"]
-		},
-		{
-			"name": "mode-toggle",
-			"type": "registry:ui",
-			"title": "Mode Toggle",
-			"description": "Toggle between light, dark, and system color modes.",
-			"dependencies": ["lucide-react"],
-			"registryDependencies": ["utils", "theme-provider"],
-			"files": [
-				{
-					"path": "src/mode-toggle/mode-toggle.tsx",
-					"type": "registry:ui"
-				}
-			],
-			"categories": ["theme"]
-		},
-		{
-			"name": "theme-selector",
-			"type": "registry:ui",
-			"title": "Theme Selector",
-			"description": "Dropdown selector for choosing theme presets with color previews.",
-			"dependencies": ["lucide-react"],
-			"registryDependencies": ["utils", "theme-provider"],
-			"files": [
-				{
-					"path": "src/theme-selector/theme-selector.tsx",
-					"type": "registry:ui"
-				}
-			],
-			"categories": ["theme"]
-		},
-		{
-			"name": "license",
-			"type": "registry:lib",
-			"title": "License",
-			"description": "Paywall and license management for one-time purchase apps. Includes LicenseProvider, Paywall drawer, and useLicense hook.",
-			"dependencies": ["lucide-react"],
-			"registryDependencies": ["utils", "button", "drawer", "input"],
-			"files": [
-				{
-					"path": "src/license/license.tsx",
-					"type": "registry:lib",
-					"target": "lib/license.tsx"
-				}
-			],
-			"categories": ["monetization"]
-		},
-		{
-			"name": "utils",
-			"type": "registry:lib",
-			"title": "Utilities",
-			"description": "Utility functions for class name merging.",
-			"dependencies": ["clsx", "tailwind-merge"],
-			"files": [
-				{
-					"path": "src/lib/utils.ts",
-					"type": "registry:lib"
-				}
-			]
-		}
-	]
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "offbyone",
+  "homepage": "https://ui.offbyone.ai",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "A customizable button component with multiple variants and sizes.",
+      "dependencies": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "src/button/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["primitives"]
+    },
+    {
+      "name": "theme-provider",
+      "type": "registry:ui",
+      "title": "Theme Provider",
+      "description": "Context provider for theme presets and color mode (light/dark/system).",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "src/theme-provider/theme-provider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["theme"]
+    },
+    {
+      "name": "mode-toggle",
+      "type": "registry:ui",
+      "title": "Mode Toggle",
+      "description": "Toggle between light, dark, and system color modes.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "theme-provider"],
+      "files": [
+        {
+          "path": "src/mode-toggle/mode-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["theme"]
+    },
+    {
+      "name": "theme-selector",
+      "type": "registry:ui",
+      "title": "Theme Selector",
+      "description": "Dropdown selector for choosing theme presets with color previews.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "theme-provider"],
+      "files": [
+        {
+          "path": "src/theme-selector/theme-selector.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["theme"]
+    },
+    {
+      "name": "license",
+      "type": "registry:lib",
+      "title": "License",
+      "description": "Paywall and license management for one-time purchase apps. Includes LicenseProvider, Paywall drawer, and useLicense hook.",
+      "dependencies": ["lucide-react"],
+      "registryDependencies": ["utils", "button", "drawer", "input"],
+      "files": [
+        {
+          "path": "src/license/license.tsx",
+          "type": "registry:lib",
+          "target": "lib/license.tsx"
+        }
+      ],
+      "categories": ["monetization"]
+    },
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utilities",
+      "description": "Utility functions for class name merging.",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "files": [
+        {
+          "path": "src/lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    }
+  ]
 }

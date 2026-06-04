@@ -5,11 +5,11 @@ import { MobileNav } from "@/components/mobile-nav";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-	const components = await getCollection("components");
-	return components.map((entry) => ({
-		params: { slug: entry.data.component },
-		props: { entry },
-	}));
+  const components = await getCollection("components");
+  return components.map((entry) => ({
+    params: { slug: entry.data.component },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
@@ -17,21 +17,21 @@ const { Content } = await render(entry);
 
 const allComponents = await getCollection("components");
 const navigation = [
-	{
-		title: "Getting Started",
-		items: [
-			{ title: "Introduction", href: "/docs" },
-			{ title: "Installation", href: "/docs#installation" },
-		],
-	},
-	{
-		title: "Components",
-		items: allComponents.map((c) => ({
-			title: c.data.title,
-			href: `/components/${c.data.component}`,
-			isActive: entry.data.component === c.data.component,
-		})),
-	},
+  {
+    title: "Getting Started",
+    items: [
+      { title: "Introduction", href: "/docs" },
+      { title: "Installation", href: "/docs#installation" },
+    ],
+  },
+  {
+    title: "Components",
+    items: allComponents.map((c) => ({
+      title: c.data.title,
+      href: `/components/${c.data.component}`,
+      isActive: entry.data.component === c.data.component,
+    })),
+  },
 ];
 ---
 
