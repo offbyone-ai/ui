@@ -59,6 +59,38 @@ export function PremiumFeature() {
 }
 ```
 
+### Server-verified license check with `requireLicense`
+
+The `licensed` boolean is derived from `localStorage` on mount — it's fast but trusts whatever was saved locally. `requireLicense()` goes further: it reads the stored identity and makes a live call to your payment backend to confirm the license is still valid. This catches edge cases like refunds or revoked licenses.
+
+Use it to gate actions that matter (downloads, exports, generation) rather than rendering:
+
+```tsx
+import { useLicense } from "@/lib/license"
+
+export function DownloadButton() {
+  const { requireLicense, openPaywall } = useLicense()
+
+  async function handleDownload() {
+    try {
+      if (!(await requireLicense())) {
+        openPaywall("Download requires a license.")
+        return
+      }
+    } catch {
+      toast.error("Unable to verify license — check your connection and try again.")
+      return
+    }
+
+    // proceed with download
+  }
+
+  return <button onClick={handleDownload}>Download</button>
+}
+```
+
+`requireLicense` returns `false` (and clears local state) if there's no stored identity or if the server says the license is invalid. It throws on network failure, so wrap it in a try/catch to handle connectivity issues gracefully.
+
 ## Examples
 
 ### Default (Buy step)
