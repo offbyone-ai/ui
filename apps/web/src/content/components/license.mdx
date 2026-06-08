@@ -4,7 +4,7 @@ description: Paywall and license management for one-time purchase apps. Includes
 component: license
 ---
 
-import { LicensePaywallChoose, LicensePaywallRestore, LicensePaywallRestored } from "@/components/examples/license-demo";
+import { LicenseDownloadButton, LicensePaywallChoose, LicensePaywallRestore, LicensePaywallRestored } from "@/components/examples/license-demo";
 import PreviewTabs from "@/components/ui/preview-tabs";
 
 ## Installation
@@ -56,6 +56,38 @@ export function PremiumFeature() {
   }
 
   return <div>Premium content</div>
+}
+```
+
+### DownloadButton
+
+A pre-styled download button that automatically verifies the license before calling `onDownload`. When inside a `LicenseProvider`, clicking it calls `requireLicense()` first — if the check fails the paywall opens; if it passes `onDownload` is called. Outside a provider it calls `onDownload` directly.
+
+```tsx
+import { DownloadButton } from "@/lib/license"
+
+export function ExportPanel() {
+  const [downloading, setDownloading] = useState(false)
+
+  async function handleDownload() {
+    setDownloading(true)
+    try {
+      await exportFiles()
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  return (
+    <DownloadButton
+      onDownload={handleDownload}
+      downloading={downloading}
+      label={`Save all photos (${readyCount})`}
+      onError={() =>
+        toast.error("Unable to verify license — check your connection and try again.")
+      }
+    />
+  )
 }
 ```
 
@@ -150,6 +182,29 @@ const {
   onPaymentSuccess, // (fn: () => void | Promise<void>) => void
 } = useLicense()
 ```
+
+### DownloadButton
+
+<PreviewTabs client:load code={`<DownloadButton
+  onDownload={handleDownload}
+  downloading={downloading}
+  label="Download all"
+  loadingText="Downloading…"
+/>`}>
+  <LicenseDownloadButton client:load />
+</PreviewTabs>
+
+### DownloadButton Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onDownload` | `() => void \| Promise<void>` | — | Called after a successful license check |
+| `onError` | `(err: unknown) => void` | — | Called if `requireLicense` throws (e.g. network failure) — use to show a toast |
+| `downloading` | `boolean` | `false` | Shows `loadingText` and disables the button while `true` |
+| `disabled` | `boolean` | — | Explicitly disables the button; falls back to `downloading` if omitted |
+| `label` | `string` | `"Download all"` | Button text when not downloading |
+| `loadingText` | `string` | `"Downloading…"` | Button text while `downloading` is `true` |
+| `className` | `string` | — | Additional classes merged onto the button |
 
 ### Standalone API Functions
 

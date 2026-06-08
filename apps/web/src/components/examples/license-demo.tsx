@@ -1,4 +1,4 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { Download, Mail, MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -107,6 +107,29 @@ function PaywallMock({
           </Button>
         )}
       </div>
+    </div>
+  );
+}
+
+export function LicenseDownloadButton() {
+  const [downloading, setDownloading] = useState(false);
+
+  async function handleDownload() {
+    setDownloading(true);
+    await new Promise((r) => setTimeout(r, 2000));
+    setDownloading(false);
+  }
+
+  return (
+    <div className="w-full max-w-sm mx-auto">
+      <Button
+        onClick={handleDownload}
+        disabled={downloading}
+        className="h-14 w-full rounded-2xl text-base font-bold gap-2 shadow-lg"
+      >
+        <Download className="h-5 w-5" />
+        {downloading ? "Downloading…" : "Download all"}
+      </Button>
     </div>
   );
 }

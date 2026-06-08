@@ -1,4 +1,4 @@
-import { Mail, MessageCircle } from "lucide-react";
+import { Download, Mail, MessageCircle } from "lucide-react";
 import {
   createContext,
   type ReactNode,
@@ -273,6 +273,63 @@ export function Paywall() {
         </div>
       </DrawerContent>
     </Drawer>
+  );
+}
+
+export type DownloadButtonProps = {
+  onDownload?: () => void | Promise<void>;
+  onError?: (err: unknown) => void;
+  downloading?: boolean;
+  disabled?: boolean;
+  label?: string;
+  loadingText?: string;
+  className?: string;
+};
+
+export function DownloadButton({
+  onDownload,
+  onError,
+  downloading = false,
+  disabled,
+  label = "Download all",
+  loadingText = "Downloading…",
+  className,
+}: DownloadButtonProps) {
+  const ctx = useContext(Ctx);
+  const [verifying, setVerifying] = useState(false);
+
+  async function handleClick() {
+    if (ctx) {
+      setVerifying(true);
+      try {
+        if (!(await ctx.requireLicense())) {
+          ctx.openPaywall("Download requires a license.");
+          return;
+        }
+      } catch (err) {
+        onError?.(err);
+        return;
+      } finally {
+        setVerifying(false);
+      }
+    }
+    await onDownload?.();
+  }
+
+  const busy = downloading || verifying;
+
+  return (
+    <Button
+      onClick={handleClick}
+      disabled={disabled ?? busy}
+      className={cn(
+        "h-14 w-full rounded-2xl text-base font-bold gap-2 shadow-lg",
+        className
+      )}
+    >
+      <Download className="h-5 w-5" />
+      {busy ? loadingText : label}
+    </Button>
   );
 }
 
