@@ -12,16 +12,19 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
-const PAY_URL = "https://pay.offbyone.ai";
+import { config } from "@/lib/config";
 
 type FeedbackType = "bug" | "feature" | "other";
 type Status = "idle" | "loading" | "success" | "error";
 
-interface FeedbackFormProps {
+interface PayConfig {
+  /** Unique identifier for your app — used to filter feedback in the dashboard */
   appId: string;
-  /** Defaults to the production pay service URL */
-  serverUrl?: string;
+  /** Base URL of your pay service. Defaults to PAY_URL */
+  payUrl?: string;
+}
+
+interface FeedbackFormProps extends PayConfig {
   /** Called after a successful submission */
   onSuccess?: () => void;
 }
@@ -38,9 +41,7 @@ function readStoredEmail(appId: string): string | undefined {
   return undefined;
 }
 
-interface FeedbackButtonProps {
-  appId: string;
-  serverUrl?: string;
+interface FeedbackButtonProps extends PayConfig {
   /** Renders as icon-only button by default. Pass a label to show text instead. */
   label?: string;
   /** Dialog title. Defaults to "{appId} feedback" */
@@ -51,7 +52,7 @@ interface FeedbackButtonProps {
 
 export function FeedbackButton({
   appId,
-  serverUrl,
+  payUrl = config.pay.url,
   label,
   title,
   description,
@@ -78,7 +79,7 @@ export function FeedbackButton({
         </DialogHeader>
         <FeedbackForm
           appId={appId}
-          serverUrl={serverUrl}
+          payUrl={payUrl}
           onSuccess={() => setOpen(false)}
         />
       </DialogContent>
@@ -88,7 +89,7 @@ export function FeedbackButton({
 
 export function FeedbackForm({
   appId,
-  serverUrl = PAY_URL,
+  payUrl = config.pay.url,
   onSuccess,
 }: FeedbackFormProps) {
   const [type, setType] = useState<FeedbackType>("other");
@@ -102,7 +103,7 @@ export function FeedbackForm({
     setStatus("loading");
 
     try {
-      const res = await fetch(`${serverUrl}/api/feedback`, {
+      const res = await fetch(`${payUrl}/api/feedback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

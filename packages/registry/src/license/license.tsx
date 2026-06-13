@@ -21,12 +21,19 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export type LicenseConfig = {
+  /** Display name shown in the paywall UI */
   appName: string;
+  /** Unique identifier for your app — used to filter purchases in the dashboard */
   appId: string;
+  /** Stripe price ID passed to the checkout endpoint */
   priceId: string;
+  /** Display price in USD (e.g. 29 → "$29.00 one time") */
   price: number;
+  /** Base URL of your pay service */
   payUrl: string;
+  /** Subtitle shown in the paywall when no reason is provided */
   appDescription?: string;
+  /** Link shown in the "Need help?" button */
   supportUrl?: string;
 };
 

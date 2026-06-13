@@ -59,14 +59,14 @@ export function FeedbackDialog({ onClose }: { onClose: () => void }) {
 }
 ```
 
-### Overriding the server URL
+### Overriding the pay URL
 
-The component defaults to `https://pay.offbyone.ai`. Pass `serverUrl` to point at a different environment:
+Pass `payUrl` to point at a different environment:
 
 ```tsx
 <FeedbackForm
   appId="my-app"
-  serverUrl="http://localhost:3001"
+  payUrl="http://localhost:3001"
 />
 ```
 
@@ -91,7 +91,7 @@ The component defaults to `https://pay.offbyone.ai`. Pass `serverUrl` to point a
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `appId` | `string` | ✓ | Unique app identifier — used to filter feedback in the dashboard |
-| `serverUrl` | `string` | — | Base URL of the pay service. Defaults to `https://pay.offbyone.ai` |
+| `payUrl` | `string` | — | Base URL of your pay service |
 | `label` | `string` | — | Button text. Defaults to `"Feedback"` |
 
 ### FeedbackForm
@@ -99,12 +99,12 @@ The component defaults to `https://pay.offbyone.ai`. Pass `serverUrl` to point a
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `appId` | `string` | ✓ | Unique app identifier — used to filter feedback in the dashboard |
-| `serverUrl` | `string` | — | Base URL of the pay service. Defaults to `https://pay.offbyone.ai` |
+| `payUrl` | `string` | — | Base URL of your pay service |
 | `onSuccess` | `() => void` | — | Called after a successful submission. Useful for closing a dialog |
 
 ### Payload
 
-The form posts JSON to `POST {serverUrl}/api/feedback`:
+The form posts JSON to `POST {payUrl}/api/feedback`:
 
 ```json
 {
