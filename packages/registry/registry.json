@@ -63,6 +63,21 @@
       "categories": ["theme"]
     },
     {
+      "name": "feedback-form",
+      "type": "registry:ui",
+      "title": "Feedback Form",
+      "description": "Feedback form that posts to your pay service. One source of truth for bug reports, feature requests, and general feedback across all your apps.",
+      "dependencies": [],
+      "registryDependencies": ["button", "checkbox", "dialog", "input", "textarea"],
+      "files": [
+        {
+          "path": "src/feedback/feedback-form.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "categories": ["monetization"]
+    },
+    {
       "name": "license",
       "type": "registry:lib",
       "title": "License",

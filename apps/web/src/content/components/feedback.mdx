@@ -1,0 +1,119 @@
+---
+title: Feedback Form
+description: Feedback form that posts to your pay service. One source of truth for bug reports, feature requests, and general feedback across all your apps.
+component: feedback-form
+---
+
+import { FeedbackButtonDemo, FeedbackFormDefault, FeedbackFormSuccess } from "@/components/examples/feedback-demo";
+import PreviewTabs from "@/components/ui/preview-tabs";
+
+## Usage
+
+### FeedbackButton
+
+Drop into any nav bar — opens the form in a dialog:
+
+```tsx
+import { FeedbackButton } from "@/components/feedback-form"
+
+export function Nav() {
+  return (
+    <nav>
+      {/* ... */}
+      <FeedbackButton appId="my-app" />
+    </nav>
+  )
+}
+```
+
+<PreviewTabs client:load code={`<FeedbackButton appId="my-app" />`}>
+  <FeedbackButtonDemo client:load />
+</PreviewTabs>
+
+### FeedbackForm
+
+Use the form directly when you want to embed it in your own dialog, drawer, or page:
+
+```tsx
+import { FeedbackForm } from "@/components/feedback-form"
+
+export function FeedbackPage() {
+  return <FeedbackForm appId="my-app" />
+}
+```
+
+The `appId` is the only required prop. It's sent to the pay service so you can filter feedback per app in the dashboard.
+
+### With a success callback
+
+```tsx
+import { FeedbackForm } from "@/components/feedback-form"
+
+export function FeedbackDialog({ onClose }: { onClose: () => void }) {
+  return (
+    <FeedbackForm
+      appId="my-app"
+      onSuccess={onClose}
+    />
+  )
+}
+```
+
+### Overriding the server URL
+
+The component defaults to `https://pay.offbyone.ai`. Pass `serverUrl` to point at a different environment:
+
+```tsx
+<FeedbackForm
+  appId="my-app"
+  serverUrl="http://localhost:3001"
+/>
+```
+
+## Examples
+
+### Default
+
+<PreviewTabs client:load code={`<FeedbackForm appId="my-app" />`}>
+  <FeedbackFormDefault client:load />
+</PreviewTabs>
+
+### After submission
+
+<PreviewTabs client:load code={`<FeedbackForm appId="my-app" onSuccess={() => console.log("sent!")} />`}>
+  <FeedbackFormSuccess client:load />
+</PreviewTabs>
+
+## API Reference
+
+### FeedbackButton
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `appId` | `string` | ✓ | Unique app identifier — used to filter feedback in the dashboard |
+| `serverUrl` | `string` | — | Base URL of the pay service. Defaults to `https://pay.offbyone.ai` |
+| `label` | `string` | — | Button text. Defaults to `"Feedback"` |
+
+### FeedbackForm
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `appId` | `string` | ✓ | Unique app identifier — used to filter feedback in the dashboard |
+| `serverUrl` | `string` | — | Base URL of the pay service. Defaults to `https://pay.offbyone.ai` |
+| `onSuccess` | `() => void` | — | Called after a successful submission. Useful for closing a dialog |
+
+### Payload
+
+The form posts JSON to `POST {serverUrl}/api/feedback`:
+
+```json
+{
+  "app_id": "my-app",
+  "type": "bug",
+  "message": "The export button does nothing on Safari.",
+  "email": "alice@example.com",
+  "phone": "+1 555 000 0000"
+}
+```
+
+`email` is pulled automatically from `localStorage` if the user has a stored license — they never type it. `phone` is omitted when the user doesn't check "Keep me posted".
