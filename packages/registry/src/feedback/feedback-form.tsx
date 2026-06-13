@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { config } from "@/lib/config";
 
 type FeedbackType = "bug" | "feature" | "other";
 type Status = "idle" | "loading" | "success" | "error";
@@ -21,7 +20,7 @@ interface PayConfig {
   /** Unique identifier for your app — used to filter feedback in the dashboard */
   appId: string;
   /** Base URL of your pay service. Defaults to PAY_URL */
-  payUrl?: string;
+  payUrl: string;
 }
 
 interface FeedbackFormProps extends PayConfig {
@@ -52,7 +51,7 @@ interface FeedbackButtonProps extends PayConfig {
 
 export function FeedbackButton({
   appId,
-  payUrl = config.pay.url,
+  payUrl,
   label,
   title,
   description,
@@ -87,11 +86,7 @@ export function FeedbackButton({
   );
 }
 
-export function FeedbackForm({
-  appId,
-  payUrl = config.pay.url,
-  onSuccess,
-}: FeedbackFormProps) {
+export function FeedbackForm({ appId, payUrl, onSuccess }: FeedbackFormProps) {
   const [type, setType] = useState<FeedbackType>("other");
   const [message, setMessage] = useState("");
   const [phone, setPhone] = useState("");
@@ -170,9 +165,9 @@ export function FeedbackForm({
               type="button"
               variant={type === t ? "default" : "outline"}
               onClick={() => setType(t)}
-              className="flex-1 capitalize"
+              className="flex-1 rounded-full"
             >
-              {t}
+              {t.charAt(0).toUpperCase() + t.slice(1)}
             </Button>
           ))}
         </div>

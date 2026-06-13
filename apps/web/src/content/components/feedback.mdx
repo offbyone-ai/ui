@@ -20,13 +20,13 @@ export function Nav() {
   return (
     <nav>
       {/* ... */}
-      <FeedbackButton appId="my-app" />
+      <FeedbackButton appId={config.pay.appId} payUrl={config.pay.url} />
     </nav>
   )
 }
 ```
 
-<PreviewTabs client:load code={`<FeedbackButton appId="my-app" />`}>
+<PreviewTabs client:load code={`<FeedbackButton appId={config.pay.appId} payUrl={config.pay.url} />`}>
   <FeedbackButtonDemo client:load />
 </PreviewTabs>
 
@@ -38,11 +38,9 @@ Use the form directly when you want to embed it in your own dialog, drawer, or p
 import { FeedbackForm } from "@/components/feedback-form"
 
 export function FeedbackPage() {
-  return <FeedbackForm appId="my-app" />
+  return <FeedbackForm appId={config.pay.appId} payUrl={config.pay.url} />
 }
 ```
-
-The `appId` is the only required prop. It's sent to the pay service so you can filter feedback per app in the dashboard.
 
 ### With a success callback
 
@@ -52,35 +50,25 @@ import { FeedbackForm } from "@/components/feedback-form"
 export function FeedbackDialog({ onClose }: { onClose: () => void }) {
   return (
     <FeedbackForm
-      appId="my-app"
+      appId={config.pay.appId}
+      payUrl={config.pay.url}
       onSuccess={onClose}
     />
   )
 }
 ```
 
-### Overriding the pay URL
-
-Pass `payUrl` to point at a different environment:
-
-```tsx
-<FeedbackForm
-  appId="my-app"
-  payUrl="http://localhost:3001"
-/>
-```
-
 ## Examples
 
 ### Default
 
-<PreviewTabs client:load code={`<FeedbackForm appId="my-app" />`}>
+<PreviewTabs client:load code={`<FeedbackForm appId={config.pay.appId} payUrl={config.pay.url} />`}>
   <FeedbackFormDefault client:load />
 </PreviewTabs>
 
 ### After submission
 
-<PreviewTabs client:load code={`<FeedbackForm appId="my-app" onSuccess={() => console.log("sent!")} />`}>
+<PreviewTabs client:load code={`<FeedbackForm appId={config.pay.appId} payUrl={config.pay.url} onSuccess={() => console.log("sent!")} />`}>
   <FeedbackFormSuccess client:load />
 </PreviewTabs>
 
@@ -91,15 +79,17 @@ Pass `payUrl` to point at a different environment:
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `appId` | `string` | ✓ | Unique app identifier — used to filter feedback in the dashboard |
-| `payUrl` | `string` | — | Base URL of your pay service |
-| `label` | `string` | — | Button text. Defaults to `"Feedback"` |
+| `payUrl` | `string` | ✓ | Base URL of your pay service (e.g. `config.pay.url`) |
+| `label` | `string` | — | Button text. Renders as icon-only when omitted |
+| `title` | `string` | — | Dialog title. Defaults to `"{appId} feedback"` |
+| `description` | `string` | — | Optional subtitle shown below the dialog title |
 
 ### FeedbackForm
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
 | `appId` | `string` | ✓ | Unique app identifier — used to filter feedback in the dashboard |
-| `payUrl` | `string` | — | Base URL of your pay service |
+| `payUrl` | `string` | ✓ | Base URL of your pay service (e.g. `config.pay.url`) |
 | `onSuccess` | `() => void` | — | Called after a successful submission. Useful for closing a dialog |
 
 ### Payload
