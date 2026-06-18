@@ -62,9 +62,9 @@ export function FeedbackButton({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {label ? (
-          <Button variant="outline">{label}</Button>
+          <Button variant="ghost">{label}</Button>
         ) : (
-          <Button variant="outline" size="icon" aria-label="Send feedback">
+          <Button variant="ghost" size="icon" aria-label="Send feedback">
             <MessageCircleQuestion />
           </Button>
         )}
